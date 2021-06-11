@@ -9,11 +9,11 @@ shift 3
 
 
 command=(nix-instantiate --show-trace --expr '
-  { system, configuration, hermetic ? false, ... }:
+  { system, configuration, hermetic ? false, configArgs ? {}, ... }:
   let
     os =
       if hermetic
-        then import configuration
+        then import configuration configArgs
         else import <nixpkgs/nixos> { inherit system configuration; };
   in {
     inherit (builtins) currentSystem;
